@@ -1,12 +1,12 @@
 <#Written by Kaden Spletzer#>
-
-#Dependancies
+Write-Host "! Starting powercomm !" -BackgroundColor Blue -ForegroundColor Black
+#Dependencies
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 #List of comports on the system
 $comports = [System.IO.Ports.SerialPort]::GetPortNames()
-Write-Host "! Starting powercomm !" -BackgroundColor Blue -ForegroundColor Black
+
 #Write keystrokes to interface
 function writeConsole($port){
     if ([Console]::KeyAvailable){
@@ -20,11 +20,6 @@ function writeConsole($port){
             {($_ -eq [ConsoleKey]::F1) -or ($_ -eq [ConsoleKey]::F2)}{$port.close();Write-Host "`nPort has been closed!" -ForegroundColor Red; return}
             Default{$port.write($key.KeyChar)}
         }
-        <#$char = $key.KeyChar
-        switch ($char) {
-            "~" { $port.close();Write-Host "`nPort has been closed!" -ForegroundColor Red }
-            Default {$port.write($char)}
-        }#>
     }
 }
 
@@ -123,10 +118,7 @@ function main(){
             readConsole($port)
             writeConsole($port)
         }while($port.IsOpen)
-        Write-Host -BackgroundColor Red " Closing powercomm " -ForegroundColor Black
-    }else{
-        Write-Host -BackgroundColor Red " Closing powercomm " -ForegroundColor Black
-        exit
     }
 }
 main
+Write-Host -BackgroundColor Red " Closing powercomm " -ForegroundColor Black
